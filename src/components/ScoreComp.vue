@@ -9,15 +9,16 @@
 
         <div class="score">
             <h3 class="text-3xl font-black">Score</h3>
-            <p class="text-3xl font-black">{{ score }}</p>
+            <p class="text-3xl font-black">{{ store.score }}</p>
         </div>
 
     </div>
 </template>
 
 <script setup>
+import { useStore } from '../stores/store.js'
 
-const score = 12
+const store = useStore()
 </script>
 
 <style scoped>

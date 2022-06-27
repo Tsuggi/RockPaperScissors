@@ -1,17 +1,17 @@
 <template>
     <div classe="game">
         <div class="centrer m-10 gap-16">
-            <CercleItem :colorRondExt="store.colorScissors" @click="select('scissors')" :class="[choiceSelected=== 'scissors' ? selected : '']">
+            <CercleItem :colorRondExt="store.colorScissors" @click="select('scissors')" :class="[store.choiceSelected=== 'scissors' ? selected : '']">
                 <div v-html="store.imgScissors"></div>
             </CercleItem>
 
-            <CercleItem :colorRondExt="store.colorPaper" @click="select('paper')" :class="[choiceSelected=== 'paper' ? selected : '']">
+            <CercleItem :colorRondExt="store.colorPaper" @click="select('paper')" :class="[store.choiceSelected=== 'paper' ? selected : '']">
                 <div v-html="store.imgPaper"></div>
             </CercleItem>
         </div>
 
         <div class="centrer">
-            <CercleItem :colorRondExt="store.colorRock" @click="select('rock')" :class="[choiceSelected=== 'rock' ? selected : '']">
+            <CercleItem :colorRondExt="store.colorRock" @click="select('rock')" :class="[store.choiceSelected=== 'rock' ? selected : '']">
                 <div v-html="store.imgRock"></div>
             </CercleItem>
         </div>
@@ -34,15 +34,42 @@ const router = useRouter()
 
 const userRdy = ref(true)
 
-let choiceSelected = ref("")
 const selected = ref('selected')
 
 const select = (choiceUser) => {
     console.log(choiceUser);
-    choiceSelected.value = choiceUser
+    store.choiceSelected = choiceUser
 }
 
 const displayResult = ()=>{
+    store.computerChoice()
+    if (store.choicePC === 'scissors' && store.choiceSelected === 'paper') {
+        store.result = false
+        store.score--
+    }
+    if (store.choicePC === 'rock' && store.choiceSelected === 'scissors') {
+        store.result = false
+        store.score--
+    }
+    if (store.choicePC === 'paper' && store.choiceSelected === 'rock') {
+        store.result = false
+        store.score--
+    }
+    if (store.choicePC === 'rock' && store.choiceSelected === 'paper') {
+        store.result = true
+        store.score++
+    }
+    if (store.choicePC === 'paper' && store.choiceSelected === 'scissors') {
+        store.result = true
+        store.score++
+    }
+    if (store.choicePC === 'scissors' && store.choiceSelected === 'rock') {
+        store.result = true
+        store.score++
+    }
+    if (store.choicePC === store.choiceSelected) {
+        store.result = null
+    }
     router.push({name: 'result'})
 }
 
